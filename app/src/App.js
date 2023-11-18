@@ -1,25 +1,15 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css';
-import Menu from './Menu';
-import ChatInterface from './ChatInterface';
+import React from 'react';
+import Home from './pages/Home';
+import About from './pages/About';
+import {Routes, Route, BrowserRouter} from 'react-router-dom';
 
-function App() {
-  const [currentScreen, setCurrentScreen] = useState('chat');
-
-
-  return (
-    <Router>
-      <div className="App">
-        <Menu />
-        <Routes>
-          <Route path="/" element={<ChatInterface />} />
-          {/* Define other routes here */}
-        </Routes>
-      </div>
-    </Router>
-
-  );
-}
+const App = () => (
+  <BrowserRouter>
+    <Routes> 
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+    </Routes> 
+  </BrowserRouter>
+)
 
 export default App;
