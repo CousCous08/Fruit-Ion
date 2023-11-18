@@ -6,6 +6,10 @@ import aiImage from './AI_Icon.png';
 const ChatInterface = () => {
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
+    const [isAiTyping, setIsAiTyping] = useState(false);
+    const [currentAIMessage, setCurrentAIMessage] = useState('');
+
+
     const messagesEndRef = useRef(null); // ref for the messages container
 
     const currentUser = {
@@ -22,27 +26,58 @@ const ChatInterface = () => {
         return "Thanks for sharing! Keep up the good work.";
     }
 
+    // simulate real-time typing effect by gradually updating currentAIMessage
+    const simulateTyping = (fullMessage) => {
+        let typedMessage = '';
+        let index = 0;
+        setIsAiTyping(true);
+
+        const typingInterval = setInterval(() => {
+            typedMessage += fullMessage[index];
+            setCurrentAIMessage(typedMessage);
+            index++;
+
+            if (index === fullMessage.length) {
+                clearInterval(typingInterval);
+                setIsAiTyping(false);
+                setMessages(prevMessages => [...prevMessages, { text: fullMessage, user: aiUser, sender: 'ai' }]);
+                setCurrentAIMessage('');
+            }
+
+        }, 50); // speed of typing
+    }
+
     // Add more functions and JSX here
     const handleSend = () => {
         if (inputText.trim()) {
-            const newUserMessage = { text: inputText, user: currentUser, sender: 'user'};
+            const newUserMessage = { text: inputText, user: currentUser, sender: 'user' };
             setMessages([...messages, newUserMessage]);
+            setInputText('');
+
+            setIsAiTyping(true);
 
             // Simulate AI response after user sends a message
             const aiResponse = simulateAIResponse(inputText);
-            const newAIMessage = { text: aiResponse, user: aiUser, sender: 'ai'};
-
-            setTimeout(() => {
-                setMessages(prevMessages => [...prevMessages, newAIMessage]);
-            }, 1000);
+            simulateTyping(aiResponse); // Call simulateTyping here
             setInputText('');
+
+
+            // setTimeout(() => {
+            //     const aiResponse = simulateAIResponse(inputText);
+
+            //     const newAIMessage = { text: aiResponse, user: aiUser, sender: 'ai' };
+            //     setMessages(prevMessages => [...prevMessages, newAIMessage]);
+
+            //     setIsAiTyping(false);
+            // }, 2000);
+            // setInputText('');
         }
     }
 
     // use an effect to scroll to the bottom every time messages update
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, [messages]);  
+    }, [messages]);
 
     // Inside your ChatInterface component
     return (
@@ -54,9 +89,19 @@ const ChatInterface = () => {
                         <div className="message-content">
                             <div className="message-user-name">{message.user.name}</div>
                             <div className="message-text">{message.text}</div>
+
                         </div>
                     </div>
                 ))}
+                {isAiTyping && (
+                <div className="message message-ai">
+                    <img src={aiUser.image} alt={aiUser.name} className="message-user-image" />
+                    <div className="message-content">
+                        <div className="message-user-name">{aiUser.name}</div>
+                        <div className="message-text">{currentAIMessage}</div>
+                    </div>
+                </div>
+            )}
                 <div ref={messagesEndRef} />
             </div>
 
