@@ -79,6 +79,9 @@ const ChatInterface = () => {
             // Simulate AI response after user sends a message
             //calling the api in this format should work
             const aiResponsePromise = simulateAIResponse(inputText);
+
+
+            //
             aiResponsePromise.then(response => {
                     //console.log("+++++");
                     //console.log(typeof response);
