@@ -40,7 +40,7 @@ def modify_goals():
     If there exists habits or milestones that don't have a long-term goal associated with them, add a goal object in the JSON except its name parameter should be "undefined". 
     Return the edited JSON in <newJSON> tags. In the end, craft a response to the human client that lists the edits in their goals system for the user to confirm whether they are correct or not.
     Keep this response brief, organized, and friendly! Use newline characters as needed. This must be in <response> tags.
-    JSON info for before: <pastJSON>{temp_json}</pastJSON>
+    JSON info for before: <pastJSON>{temp_jgit chson}</pastJSON>
 
     {AI_PROMPT}
     """
