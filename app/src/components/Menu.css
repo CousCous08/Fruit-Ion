@@ -22,7 +22,7 @@
     text-align: center;
     text-decoration: none; /* Remove underline from links */
     color: white; /* Button text color */
-    background: #b346bd; /* Button background color */
+    background: #4F46E5; /* Button background color */
     border: none; /* Remove border */
     border-radius: 4px; /* Slightly rounded corners for a modern look */
     /* font-weight: bold; Make the text bold */
@@ -31,7 +31,7 @@
 }
 
 .menu-button:hover {
-    background-color: #991893; /* Slightly darker on hover */
+    background-color: #6760e2; /* Slightly darker on hover */
 }
 
 
