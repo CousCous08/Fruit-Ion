@@ -1,16 +1,16 @@
 .goal-card {
-    width: 400px;
+    width: 500px;
     border: 1px solid #4F46E5; /* Blue border */
     margin: 10px;
     padding: 10px;
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    background-color: #f9f9f9; /* Light background */
+    background-color: #f9f9f9d8; /* Light background */
   }
   
   .goal-card h2 {
     color: #4F46E5; /* Blue heading */
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
   }
