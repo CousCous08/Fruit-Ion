@@ -87,21 +87,23 @@ const ChatInterface = () => {
                     <div key={index} className={`message ${message.user.name === currentUser.name ? 'current-user' : 'message-ai'}`}>
                         <img src={message.user.image} alt={message.user.name} className="message-user-image" />
                         <div className="message-content">
-                            <div className="message-user-name">{message.user.name}</div>
+                            <div className={`message-user-name ${message.sender === 'user' ? 'align-right' : 'align-left'}`}>
+                                {message.user.name}
+                            </div>
                             <div className="message-text">{message.text}</div>
 
                         </div>
                     </div>
                 ))}
                 {isAiTyping && (
-                <div className="message message-ai">
-                    <img src={aiUser.image} alt={aiUser.name} className="message-user-image" />
-                    <div className="message-content">
-                        <div className="message-user-name">{aiUser.name}</div>
-                        <div className="message-text">{currentAIMessage}</div>
+                    <div className="message message-ai">
+                        <img src={aiUser.image} alt={aiUser.name} className="message-user-image" />
+                        <div className="message-content">
+                            <div className="message-user-name align-left">{aiUser.name}</div>
+                            <div className="message-text">{currentAIMessage}</div>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
                 <div ref={messagesEndRef} />
             </div>
 

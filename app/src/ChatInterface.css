@@ -54,6 +54,18 @@
     font-weight: bold;
 }
 
+.align-right {
+    text-align: right;
+    display: block; /* Ensures text-align works */
+}
+
+.align-left {
+    text-align: left;
+    display: block; /* Ensures text-align works */
+}
+
+  
+
 .message-text {
     font-size: 16px;
     color: #333; /* Dark grey color for text */
