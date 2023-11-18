@@ -28,7 +28,7 @@ const ChatInterface = () => {
 
 
         //keep this as a template for the fetch call
-        return fetch('http://localhost:5000/api/test_prompt', {
+        return fetch('http://localhost:5000/api/general_prompt', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const ChatInterface = () => {
                 setCurrentAIMessage('');
             }
 
-        }, 50); // speed of typing
+        }, 5); // speed of typing
     }
 
     // Add more functions and JSX here
