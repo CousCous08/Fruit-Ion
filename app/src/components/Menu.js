@@ -6,7 +6,7 @@ const Menu = () => {
     return (
         <div className="menu">
             <Link to="/chat" className = "menu-button">Chat</Link>
-            <Link to="/stats" className = "menu-button">Stats</Link>
+            <Link to="/about" className = "menu-button">About</Link>
         </div>
     );
 }
