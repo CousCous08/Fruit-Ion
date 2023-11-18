@@ -1,21 +1,36 @@
+
 .goals-container {
-    padding: 20px;
-    max-width: 800px; /* Limiting max width for better readability */
-    margin: 0 auto; /* Centering the container */
-    background-color: #ffffff; /* White background */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow */
-  }
-  
-  .goals-header {
-    color: #333;
-    text-align: center; /* Centering the header text */
-    margin-bottom: 20px; /* Spacing between header and cards */
-  }
-  
-  .goals-list {
-    display: flex;
-    flex-wrap: wrap; /* Allowing cards to wrap in smaller screens */
-    justify-content: space-around; /* Evenly space out cards */
-    gap: 10px; /* Space between cards */
-  }
-  
+  padding: 20px;
+  padding-top: 70px;
+  max-width: 800px;
+  /* Limiting max width for better readability */
+  margin: 0 auto;
+  /* Centering the container */
+  background-color: #ffffff;
+  /* White background */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* Adding a subtle shadow */
+  height: 100%;
+  overflow-y: auto;
+}
+
+.goals-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #ffffff; /* Match the background with the container */
+  color: #333;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+.goals-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 10px;
+  padding-bottom: 10px; /* Space at the bottom */
+}
