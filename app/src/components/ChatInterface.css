@@ -1,11 +1,20 @@
-/* In ChatInterface.css */
+/* ChatInterface.css */
 .chat-container {
-    width: 500px;
-    margin: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    font-family: 'Roboto', sans-serif;
-}
+    width: calc(100% - 20%); /* Adjust the 20% if your menu width is different */
+    min-width: 600px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center children vertically */
+    align-items: center; /* Center children horizontally */
+    height: 100%; /* Take up all available vertical space */
+  }
+
+  .chat-input {
+    flex: 1 0 auto; /* The input will grow to fill space but won't shrink smaller than its content */
+    width: 100%; /* Take up the full width of its container */
+    /* other styles */
+  }
+  
 
 /* Styles for the current user */
 .current-user {
@@ -26,6 +35,7 @@
 
 /* General message styles */
 .messages {
+    width: 100%;
     height: 750px;
     overflow-y: scroll;
     border-bottom: 1px solid #ccc;
@@ -64,7 +74,6 @@
     display: block; /* Ensures text-align works */
 }
 
-  
 
 .message-text {
     font-size: 16px;
@@ -81,6 +90,7 @@
 
 .input-area {
     height: 100px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
