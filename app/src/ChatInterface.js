@@ -10,6 +10,7 @@ const ChatInterface = () => {
     const [currentAIMessage, setCurrentAIMessage] = useState('');
 
 
+
     const messagesEndRef = useRef(null); // ref for the messages container
 
     const currentUser = {
@@ -60,17 +61,6 @@ const ChatInterface = () => {
             const aiResponse = simulateAIResponse(inputText);
             simulateTyping(aiResponse); // Call simulateTyping here
             setInputText('');
-
-
-            // setTimeout(() => {
-            //     const aiResponse = simulateAIResponse(inputText);
-
-            //     const newAIMessage = { text: aiResponse, user: aiUser, sender: 'ai' };
-            //     setMessages(prevMessages => [...prevMessages, newAIMessage]);
-
-            //     setIsAiTyping(false);
-            // }, 2000);
-            // setInputText('');
         }
     }
 
@@ -112,6 +102,7 @@ const ChatInterface = () => {
                     type="text"
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
+                    placeholder='Hello! Please tell me your achievements for today!'
                 />
                 <button onClick={handleSend}>Send</button>
             </div>
