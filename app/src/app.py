@@ -9,7 +9,7 @@ CORS(app)
 
 anthropic = Anthropic(
     # defaults to os.environ.get("ANTHROgit PIC_API_KEY")
-    api_key="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",
+    api_key="REDACTED",
 )
 client = Anthropic()
 
