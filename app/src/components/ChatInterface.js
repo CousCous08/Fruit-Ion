@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ChatInterface.css';
-import userImage from './Sample_User_Icon.png';
-import aiImage from './grape_icon.png';
+import userImage from '../assets/Sample_User_Icon.png';
+import aiImage from '../assets/grape_icon.png';
 
 const ChatInterface = () => {
     const [messages, setMessages] = useState([]);
