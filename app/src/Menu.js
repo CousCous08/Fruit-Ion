@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import './Menu.css';
 
 const Menu = () => {
     return (
         <div className="menu">
-            <Link to="/">Chat</Link>
-            <Link to="/stats">Stats</Link>
+            <Link to="/" className = "menu-button">Chat</Link>
+            <Link to="/stats" className = "menu-button">Stats</Link>
         </div>
     );
 }
