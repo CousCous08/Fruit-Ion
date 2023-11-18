@@ -24,7 +24,23 @@ const ChatInterface = () => {
     }
 
     const simulateAIResponse = (userInput) => {
-        return "Thanks for sharing! Keep up the good work.";
+        //return "Thanks for sharing! Keep up the good work.";
+
+
+        //keep this as a template for the fetch call
+        return fetch('http://localhost:5000/api/test_prompt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: userInput })
+        })
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.error('Error:', error);
+            return '';
+        });
     }
 
     // simulate real-time typing effect by gradually updating currentAIMessage
@@ -34,7 +50,9 @@ const ChatInterface = () => {
         setIsAiTyping(true);
 
         const typingInterval = setInterval(() => {
+            //console.log(typeof fullMessage);
             typedMessage += fullMessage[index];
+            //typedMessage += fullMessage;
             setCurrentAIMessage(typedMessage);
             index++;
 
@@ -52,14 +70,23 @@ const ChatInterface = () => {
     const handleSend = () => {
         if (inputText.trim()) {
             const newUserMessage = { text: inputText, user: currentUser, sender: 'user' };
+            //test going into backend
             setMessages([...messages, newUserMessage]);
             setInputText('');
 
             setIsAiTyping(true);
 
             // Simulate AI response after user sends a message
-            const aiResponse = simulateAIResponse(inputText);
-            simulateTyping(aiResponse); // Call simulateTyping here
+            //calling the api in this format should work
+            const aiResponsePromise = simulateAIResponse(inputText);
+            aiResponsePromise.then(response => {
+                    //console.log("+++++");
+                    //console.log(typeof response);
+                    //console.log("content of ai response in handlesend " + response);
+                    simulateTyping(String(response)); // Call simulateTyping here
+                }).catch(error => {
+                    console.error('Error', error);
+                });
             setInputText('');
         }
     }
@@ -67,7 +94,7 @@ const ChatInterface = () => {
     // use an effect to scroll to the bottom every time messages update
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
+    }, [messages]); 
 
     // Inside your ChatInterface component
     return (
