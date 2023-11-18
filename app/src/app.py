@@ -1,5 +1,4 @@
 #skeleton flask backend
-<<<<<<< HEAD
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
@@ -60,17 +59,6 @@ def data():
 
 
 
-=======
-from flask import Flask, jsonify
-from flask_cors import CORS
-app = Flask(__name__)
-CORS(app)
-
-#example function
-@app.route('/api/data')
-def data():
-    return jsonify({'message': 'Hello from Flask!'})
->>>>>>> refs/remotes/origin/anthropic_prompting
 
 if __name__ == '__main__':
     app.run()
