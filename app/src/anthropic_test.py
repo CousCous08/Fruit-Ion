@@ -3,7 +3,7 @@ from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 
 anthropic = Anthropic(
     # defaults to os.environ.get("ANTHROPIC_API_KEY")
-    api_key="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",
+    api_key="REDACTED",
 )
 client = Anthropic()
 
