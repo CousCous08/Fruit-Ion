@@ -7,7 +7,6 @@ class Home extends Component {
     render() {
         return(
             <div className="home-page">
-                <Menu/>
                 <ChatInterface />
             </div>
         );
