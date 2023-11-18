@@ -1,0 +1,48 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.app-container {
+  display: flex;
+  width: 100%; /* Ensure the container takes full width */
+  height: 100vh; /* Use 100% of the viewport height */
+}
+
+.menu {
+  flex: 0 0 20%; /* The menu takes up 20% width, does not grow or shrink */
+  /* Additional menu styles */
+}
+
+/* Add a class for the main content area where the Home component will be rendered */
+
+.main-content {
+  display: flex; 
+  justify-content: center; /* Horizontally center */
+  align-items: center;     /* Vertically center */
+  height: 100%;            /* Set to the desired height */
+  /* Other styling */
+}
+.main-content {
+  margin-left: auto;
+  width: 80%; /* Explicitly define the width to be 80% of the container */
+  /* Additional styles for padding, margin, etc. */
+}
+
+
+.navigationbar {
+    margin-top: 20px;
+  }
+  
+  .tail h4 {
+    text-align: left;
+  }
+  
+  .tail {
+    position: sticky;
+  }
+  
+  .header {
+    height: 80px;
+    border-bottom: 1px solid #cccccc;
+  }
