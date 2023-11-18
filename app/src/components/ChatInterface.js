@@ -130,6 +130,7 @@ const ChatInterface = () => {
             <div className="input-area">
                 <textarea
                     type="text"
+                    className="chat-input"
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
                     placeholder='Hello! Please tell me your achievements for today!'

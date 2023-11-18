@@ -5,25 +5,36 @@
     top: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 200px; /* Adjust the width as needed */
+    width: 20%; /* Adjust the width as needed */
+    height: 100%;
+    z-index: 1000;
+
+    background: #aeafb1; /* Light background for the sidebar */
+    padding: 1em; /* Padding around the menu */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
 }
 
 .menu-button {
-    display: block; /* Stack buttons vertically */
-    width: 100%; /* Full width of the menu container */
-    text-align: center; /* Center text inside the button */
-    padding: 20px 0; /* Add padding for square shape */
-    background-color: #4CAF50; /* Example background color */
-    color: white; /* Text color */
+    display: block;
+    margin: 0.5em 0; /* Add some space between buttons */
+    padding: 10px 0; /* Top and bottom padding for square shape */
+    width: 100%; /* Adjust width as needed */
+    text-align: center;
     text-decoration: none; /* Remove underline from links */
-    margin-bottom: 10px; /* Space between buttons */
-    border-radius: 5px; /* Optional: rounded corners */
-}
-
-.menu-button:last-child {
-    margin-bottom: 0; /* Remove margin from the last button */
+    color: white; /* Button text color */
+    background: #b346bd; /* Button background color */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Slightly rounded corners for a modern look */
+    /* font-weight: bold; Make the text bold */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 .menu-button:hover {
-    background-color: #45a049; /* Darker shade on hover */
+    background-color: #991893; /* Slightly darker on hover */
+}
+
+
+.menu-button:last-child {
+    margin-bottom: 0; /* Remove margin from the last button */
 }
