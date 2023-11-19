@@ -66,8 +66,22 @@ const ChatInterface = () => {
         }, 5); // speed of typing
     }
 
-    // Add more functions and JSX here
-    const handleSend = () => {
+    const getGoalsTest = () => {
+        return fetch('http://localhost:5000/api/get_goals_json_test', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // If you need to send data in the POST request, include it here
+            body: JSON.stringify({}) // Sending an empty object as an example
+        })
+        .then(response => response.json())  // Parses the JSON response
+        .then(data => data)
+        .catch(error => console.error('Error:', error));
+    }
+
+    // made it async so it always featches the new goals after it takes care of this one
+    const handleSend = async () => {
         if (inputText.trim()) {
             const newUserMessage = { text: inputText, user: currentUser, sender: 'user' };
             //test going into backend
@@ -78,19 +92,35 @@ const ChatInterface = () => {
 
             // Simulate AI response after user sends a message
             //calling the api in this format should work
-            const aiResponsePromise = simulateAIResponse(inputText);
+            const aiResponsePromise = await simulateAIResponse(inputText);
 
-
-            //
+            /*
             aiResponsePromise.then(response => {
                     //console.log("+++++");
                     //console.log(typeof response);
                     //console.log("content of ai response in handlesend " + response);
+                    console.log("response finished generating")
                     simulateTyping(String(response)); // Call simulateTyping here
                 }).catch(error => {
                     console.error('Error', error);
                 });
+            */
+
+            console.log("response finished generating")
+            simulateTyping(String(aiResponsePromise))
             setInputText('');
+
+
+
+            //testing getting the goals from server -- for this we return temp_json, which will not be used like this in the final product
+            const test_goals = getGoalsTest();
+            test_goals.then(response => {
+                console.log(response);
+                console.log(typeof response)
+                console.log(JSON.stringify(response))
+            }).catch(error => {
+                console.error('Error', error)
+            });
         }
     }
 

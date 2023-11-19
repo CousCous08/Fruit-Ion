@@ -9,7 +9,7 @@ CORS(app)
 
 anthropic = Anthropic(
     # defaults to os.environ.get("ANTHROgit PIC_API_KEY")
-    api_key="REDACTED",
+    api_key="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",
 )
 client = Anthropic()
 
@@ -17,7 +17,7 @@ client = Anthropic()
 goals_json_master = {}
 
 #storing the temporary data that user will modify before being pushed into main
-temp_json = {"temp": "None"}
+temp_json = None
 
 
 
@@ -40,7 +40,7 @@ def modify_goals():
     If there exists habits or milestones that don't have a long-term goal associated with them, add a goal object in the JSON except its name parameter should be "undefined". 
     Return the edited JSON in <newJSON> tags. In the end, craft a response to the human client that lists the edits in their goals system for the user to confirm whether they are correct or not.
     Keep this response brief, organized, and friendly! Use newline characters as needed. This must be in <response> tags.
-    JSON info for before: <pastJSON>{temp_jgit chson}</pastJSON>
+    JSON info for before: <pastJSON>{temp_json}</pastJSON>
 
     {AI_PROMPT}
     """
@@ -53,7 +53,8 @@ def modify_goals():
     new_json = extract_newJSON_tags(response_raw)
     response = extract_response_tags(response_raw)
     temp_json = new_json
-    return jsonify(response_raw)
+    #just return simple response for now
+    return jsonify(response)
 
 #extract text btwn new json tags
 def extract_newJSON_tags(response_text):
@@ -74,6 +75,9 @@ def extract_response_tags(response_text):
     return response_message
 
 
+@app.route('/api/get_goals_json_test', methods=['POST'])
+def get_goals_json_test():
+    return temp_json
 
 
 #example function
