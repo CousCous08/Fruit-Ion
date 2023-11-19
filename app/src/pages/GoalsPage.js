@@ -43,8 +43,7 @@ const GoalsPage = () => {
 
     return (
         <div ref={containerRef} className="goals-container">
-            <h1 className="goals-header" style={{ width: `${headerWidth}px` }}>Goals</h1>
-
+            <h1 className="goals-header" style={{ width: `${headerWidth - 40}px` }}>Goals</h1>
             <div className="goals-list grid">
                 {goals.map(goal => (
                     <div className='w-full'>
