@@ -1,0 +1,39 @@
+.milestone-card {
+    cursor: pointer;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.5rem; /* Adjust as needed */
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Simple shadow */
+    width: 100%;
+}
+
+.card-header {
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;           
+}
+
+.deadline {
+    font-size: 0.875rem; /* Small text size */
+}
+
+.milestone-tag {
+    padding: 0.25rem 0.5rem;
+    border: 2px solid #fcd34d; /* Yellow border */
+    border-radius: 0.25rem;
+}
+
+.tag-text {
+    font-weight: 300;
+    color: #fcd34d; /* Yellow text */
+    font-size: 0.875rem;
+}
+
+.milestone-name {
+    font-weight: 600; /* Semi-bold */
+}

@@ -1,0 +1,57 @@
+.habit-card {
+    cursor: pointer;
+}
+
+.icon-and-habit-name {
+    display: flex;
+    align-items: center;
+}
+
+.card-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0.5rem;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem; /* Adjust as needed */
+    height: 3rem; /* Adjust as needed */
+    border-radius: 50%;
+    border: 2px solid #dbeafe; /* Light blue border */
+    background-color: #eff6ff; /* Light blue background */
+}
+
+.icon {
+    width: 1.5rem; /* Adjust as needed */
+    height: 1.5rem; /* Adjust as needed */
+    color: #60a5fa; /* Blue icon color */
+}
+
+.habit-tag {
+    padding: 0.25rem 0.5rem;
+    border: 2px solid #d8b4fe; /* Purple border */
+    border-radius: 0.25rem;
+    margin-left: 0.5rem;
+}
+
+.habit-tag-text {
+    font-weight: 300;
+    color: #d8b4fe; /* Purple text */
+    font-size: 0.875rem;
+}
+
+.text-content {
+    margin-left: 1rem;
+}
+
+.habit-name {
+    font-weight: 600;
+}
