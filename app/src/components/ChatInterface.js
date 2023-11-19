@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import TypingIndicator from './TypingIndicator';
 import './ChatInterface.css';
 import userImage from '../assets/Sample_User_Icon.png';
 import aiImage from '../assets/grape_icon.png';
@@ -8,6 +9,7 @@ const ChatInterface = () => {
     const [inputText, setInputText] = useState('');
     const [isAiTyping, setIsAiTyping] = useState(false);
     const [currentAIMessage, setCurrentAIMessage] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
 
 
 
@@ -200,6 +202,7 @@ const ChatInterface = () => {
                         </div>
                     </div>
                 ))}
+                {isAiTyping && <TypingIndicator />}
                 {isAiTyping && (
                     <div className="message message-ai">
                         <img src={aiUser.image} alt={aiUser.name} className="message-user-image" />
