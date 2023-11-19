@@ -24,6 +24,7 @@ const GoalsPage = () => {
     }, []);
 
     const goals = [
+
         { id: 1, name: "Finish Project", milestones: [{name: "Find a good research topic after asking 100 random people and some random words I'm going to ramble just to test and see how it treats long sentences", deadline: "2023-01-04"}, {name: "Create Outline", deadline: "2023-01-04"}, {name: "First Draft", deadline: "2023-01-04"}], habits: [{name: "read a chapter", frequency: "MWF"}] },
         { id: 2, name: "Start New Course", milestones: [{name: "Research topic", deadline: "2023-01-04"}, {name: "Create Outline", deadline: "2023-01-04"}, {name: "First Draft", deadline: "2023-01-04"}], habits: [{name: "read a chapter", frequency: "MWF"}] },
         { id: 3, name: "Start New Course2", milestones: [{name: "Research topic", deadline: "2023-01-04"}, {name: "Create Outline", deadline: "2023-01-04"}, {name: "First Draft", deadline: "2023-01-04"}], habits: [{name: "read a chapter", frequency: "MWF"}] },
@@ -32,6 +33,7 @@ const GoalsPage = () => {
         { id: 6, name: "Start New Course", milestones: [{name: "Research topic", deadline: "2023-01-04"}, {name: "Create Outline", deadline: "2023-01-04"}, {name: "First Draft", deadline: "2023-01-04"}], habits: [{name: "read a chapter", frequency: "MWF"}] },
         { id: 7, name: "Start New Course2", milestones: [{name: "Research topic", deadline: "2023-01-04"}, {name: "Create Outline", deadline: "2023-01-04"}, {name: "First Draft", deadline: "2023-01-04"}], habits: [{name: "read a chapter", frequency: "MWF"}] },
         { id: 8, name: "Start New Course3", milestones: [{name: "Research topic", deadline: "2023-01-04"}, {name: "Create Outline", deadline: "2023-01-04"}, {name: "First Draft", deadline: "2023-01-04"}], habits: [{name: "read a chapter", frequency: "MWF"}] }
+
     ];
 
     const handleGoalClick = (goal) => {
@@ -42,6 +44,7 @@ const GoalsPage = () => {
     return (
         <div ref={containerRef} className="goals-container">
             <h1 className="goals-header" style={{ width: `${headerWidth}px` }}>Goals</h1>
+
             <div className="goals-list grid">
                 {goals.map(goal => (
                     <div className='w-full'>
