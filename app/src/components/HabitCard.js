@@ -13,7 +13,7 @@ const HabitCard = ({ name, milestones, onClick }) => {
 
         <div class="ml-4">
           <h2 class="font-semibold">{name}</h2>
-          <p class="mt-2 text-sm text-gray-500">Next Milestone/Habit: {milestones[0].name}</p>
+          {/* <p class="mt-2 text-sm text-gray-500">Next Milestone/Habit: {milestones[0].name}</p> */}
         </div>
       </div>
     </div>
