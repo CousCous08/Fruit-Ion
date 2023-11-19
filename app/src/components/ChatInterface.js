@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ChatInterface.css';
 import userImage from '../assets/Sample_User_Icon.png';
 import aiImage from '../assets/grape_icon.png';
+import { NotFoundError } from '@anthropic-ai/sdk';
 
 const ChatInterface = () => {
     const [messages, setMessages] = useState([]);
@@ -23,7 +24,28 @@ const ChatInterface = () => {
         image: aiImage
     }
 
-    const simulateAIResponse = (userInput) => {
+    // simulate real-time typing effect by gradually updating currentAIMessage
+    const simulateTyping = (fullMessage) => {
+        let typedMessage = '';
+        let index = 0;
+        setIsAiTyping(true);
+
+        const typingInterval = setInterval(() => {
+            typedMessage += fullMessage[index];
+            setCurrentAIMessage(typedMessage);
+            index++;
+
+            if (index === fullMessage.length) {
+                clearInterval(typingInterval);
+                setIsAiTyping(false);
+                setMessages(prevMessages => [...prevMessages, { text: fullMessage, user: aiUser, sender: 'ai' }]);
+                setCurrentAIMessage('');
+            }
+
+        }, 5); // speed of typing
+    }
+
+    const generalPrompt = (userInput) => {
         //return "Thanks for sharing! Keep up the good work.";
 
 
@@ -43,31 +65,56 @@ const ChatInterface = () => {
         });
     }
 
-    // simulate real-time typing effect by gradually updating currentAIMessage
-    const simulateTyping = (fullMessage) => {
-        let typedMessage = '';
-        let index = 0;
-        setIsAiTyping(true);
-
-        const typingInterval = setInterval(() => {
-            //console.log(typeof fullMessage);
-            typedMessage += fullMessage[index];
-            //typedMessage += fullMessage;
-            setCurrentAIMessage(typedMessage);
-            index++;
-
-            if (index === fullMessage.length) {
-                clearInterval(typingInterval);
-                setIsAiTyping(false);
-                setMessages(prevMessages => [...prevMessages, { text: fullMessage, user: aiUser, sender: 'ai' }]);
-                setCurrentAIMessage('');
-            }
-
-        }, 5); // speed of typing
+    const confirmPrompt = (userInput) => {
+        //return "Thanks for sharing! Keep up the good work.";
+        return fetch('http://localhost:5000/api/confirm_prompt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: userInput })
+        })
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.error('Error:', error);
+            return '';
+        });
     }
+
 
     const getGoalsTest = () => {
         return fetch('http://localhost:5000/api/get_goals_json_test', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // If you need to send data in the POST request, include it here
+            body: JSON.stringify({}) // Sending an empty object as an example
+        })
+        .then(response => response.json())  // Parses the JSON response
+        .then(data => data)
+        .catch(error => console.error('Error:', error));
+    }
+
+    //use this as a template for getting the master list of goals
+    const getGoalsMaster = () => {
+        return fetch('http://localhost:5000/api/get_goals_master', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // If you need to send data in the POST request, include it here
+            body: JSON.stringify({}) // Sending an empty object as an example
+        })
+        .then(response => response.json())  // Parses the JSON response
+        .then(data => data)
+        .catch(error => console.error('Error:', error));
+    }
+
+
+    const getConfirm = () => {
+        return fetch('http://localhost:5000/api/get_need_confirm', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -88,36 +135,42 @@ const ChatInterface = () => {
             setMessages([...messages, newUserMessage]);
             setInputText('');
 
+            const needsConfirm = await getConfirm()
+            console.log("if this is true, we call our confirmation prompt; else, we call general prompt " + needsConfirm)
+
             setIsAiTyping(true);
 
             // Simulate AI response after user sends a message
             //calling the api in this format should work
-            const aiResponsePromise = await simulateAIResponse(inputText);
+            let aiResponsePromise = null
 
-            /*
-            aiResponsePromise.then(response => {
-                    //console.log("+++++");
-                    //console.log(typeof response);
-                    //console.log("content of ai response in handlesend " + response);
-                    console.log("response finished generating")
-                    simulateTyping(String(response)); // Call simulateTyping here
-                }).catch(error => {
-                    console.error('Error', error);
-                });
-            */
+            if (needsConfirm == false) {
+                aiResponsePromise = await generalPrompt(inputText);
+            } else {
+                aiResponsePromise = await confirmPrompt(inputText);
+            }
 
             console.log("response finished generating")
             simulateTyping(String(aiResponsePromise))
             setInputText('');
 
+            const needsConfirm2 = await getConfirm()
+            console.log("do we need confirmation after the response? " + needsConfirm2)
+
 
 
             //testing getting the goals from server -- for this we return temp_json, which will not be used like this in the final product
+            //follow this format to get the master json
             const test_goals = getGoalsTest();
             test_goals.then(response => {
-                console.log(response);
-                console.log(typeof response)
-                console.log(JSON.stringify(response))
+                console.log("the temp_response is " + JSON.stringify(response))
+            }).catch(error => {
+                console.error('Error', error)
+            });
+
+            const master_goals = getGoalsMaster();
+            master_goals.then(response => {
+                console.log("the master_response is " + JSON.stringify(response))
             }).catch(error => {
                 console.error('Error', error)
             });
