@@ -181,6 +181,13 @@ const ChatInterface = () => {
         }
     }
 
+    const handleKeyPress = (event) => {
+        if(event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            handleSend();
+        }
+    };
+
     // use an effect to scroll to the bottom every time messages update
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -221,6 +228,7 @@ const ChatInterface = () => {
                     className="chat-input"
                     value={inputText}
                     onChange={(e) => setInputText(e.target.value)}
+                    onKeyPress={handleKeyPress}
                     placeholder='Hello! Please tell me your achievements for today!'
                 />
                 <button onClick={handleSend}>Send</button>
