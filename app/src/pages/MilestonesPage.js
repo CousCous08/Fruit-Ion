@@ -26,7 +26,7 @@ const MilestonesPage = () => {
 
     return (
         <div ref={containerRef} className="ms-container">
-            <h1 className="ms-header" style={{ width: `${headerWidth}px` }}>{goal.name}</h1>
+            <h1 className="ms-header" style={{ width: `${headerWidth - 45}px` }}>{goal.name}</h1>
 
             <div className="ms-list grid">
                 {goal.milestones.map(ms => (

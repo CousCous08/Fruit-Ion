@@ -21,7 +21,7 @@ const ChatInterface = () => {
     }
 
     const aiUser = {
-        name: "AI",
+        name: "Fruit-Ion",
         image: aiImage
     }
 

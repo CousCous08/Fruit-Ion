@@ -15,12 +15,13 @@
   }
   
   .ms-header {
+    margin-top: 15px;
     font-weight: bold;
     font-size: large;
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #ffffff; /* Match the background with the container */
+    background-color: rgb(237, 227, 245); /* Match the background with the container */
     color: #333;
     text-align: center;
     border-bottom: 1px solid #e0e0e0;
