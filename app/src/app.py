@@ -9,7 +9,7 @@ CORS(app)
 
 anthropic = Anthropic(
     # defaults to os.environ.get("ANTHROgit PIC_API_KEY")
-    api_key="REDACTED",
+    api_key="",
 )
 client = Anthropic()
 
@@ -17,7 +17,7 @@ client = Anthropic()
 goals_json_master = {}
 
 #storing the temporary data that user will modify before being pushed into main
-temp_json = None
+temp_json = {}
 
 needs_confirm = False
 
@@ -30,22 +30,19 @@ def general_prompt():
     data = request.get_json()
     SPEECH = data['message']
 
-    prompt = f"""{HUMAN_PROMPT} you are a cheerful and encouraging life coach. Your client says the following speech. <speech>{SPEECH}</speech> 
+    prompt = f"""{HUMAN_PROMPT} you are a cheerful and encouraging life coach whose objective is to create and update a goals/habits system for your client. This is represented by a masterJSON: <masterJSON>{goals_json_master}</masterJSON> Your client says the following speech. <speech>{SPEECH}</speech> 
     It is your job to detect any specific long-term goals they mention. First, within <thinking> tags, determine whether the speech actually talks about goals, milestones and habits. Then, detect whether each of the client’s sentiments describe one of the following: 
     a long-term goal, a one-time short-term milestone, a frequent habit. Additionally, think about whether they mention milestones and/or habits could be associated with their specified 
-    long-term goals. Do NOT make up milestones or habits, only use the client’s speech as a guide. Individual sentiments in their speech should only belong to one of these categories, so one sentiment should not be both a goal and a milestone. 
-    After the thinking, if you have decided the client’s speech does not talk about goals, milestones, or habits, within <response> tags, gently explain that this what they should talk about. 
-    Then, within <needsConfirm> tags say “False” and within <newJSON> tags put “{{}}”, and ignore the rest of this prompt. 
-    Else, create a list of goals along with their associated milestones or habits. If there are milestones/habits that do not have a goal associated, 
-    keep them seperate under a goal named “undefined”. Then, either edit or add new objects to the pastJSON shown below based on this list of goals, milestones, and habits. 
-    If there is an undefined goal with no milestones or habits attached, delete it from the JSON. The format of objects is like so: {{ “ID”: 0, "name": "goal", "milestones": [{{“name”: “milestone”, deadline: “2024-01-15T12:00:00Z”, “done”: false }}], "habits": [{{“name”: “habit”, “freq”: 3}}] }}. 
+    long-term goals. Do NOT make up milestones or habits, only use the client’s speech as a guide. Individual sentiments in their speech should only belong to one of these categories, so one sentiment should not be both a goal and a milestone. Finally, think about whether each of these sentiments reflect an edit to the current object in the masterJSON, or an additional object within the masterJSON. 
+    After the thinking, if you have decided the client’s speech does not talk about goals, milestones, or habits, within <response> tags, gently explain that this what they should talk about. Then, within <needsConfirm> tags say “False” and within <newJSON> tags put “{{}}”, and ignore the rest of this prompt. Else, create a list of goals along with their associated milestones or habits. If there are milestones/habits that do not have a goal associated, 
+    keep them seperate under a goal named “undefined”. Then, either edit or add new objects to the masterJSON based on this list of goals, milestones, and habits. 
+    If there is an undefined goal with no milestones or habits attached, delete it from the JSON. Here is an example of what a goal object would look like: {{"name": "goal", "milestones": [{{“name”: “milestone”, “deadline”: “2024-01-15T12:00:00Z”, “done”: false }}], "habits": [{{“name”: “habit”, “freq”: 3}}] }}. 
     If the client doesn’t give specific deadlines for milestones or frequencies for habits, then leave them as -1, do not make up deadlines or frequencies. 
-    If there exists habits or milestones that don't have a long-term goal associated with them, add a goal object in the JSON except its name parameter should be "undefined". 
-    Return the edited JSON in <newJSON> tags. In the end, craft a response to the human client that lists the new edits in their goals system and specifically ask the user to confirm whether these changes are what they want. If they believe the changes are wrong, ask them to specify what is wrong.
+    Return the edited masterJSON in between <newJSON> tags. In the end, craft a response to the human client that lists the new edits in their goals system. Most importantly, specifically ask the user to confirm whether these changes are what they want. If they believe the changes are wrong, ask them to specify what is wrong.
     Keep this response brief, organized, and friendly! Use newline characters as needed. This must be in <response> tags.
     Finally, within <needsConfirm> tags, insert “True”.
-    JSON info for before: <pastJSON>{goals_json_master}</pastJSON>
     {AI_PROMPT}
+
     """
     json_completion = anthropic.completions.create(
         model="claude-2",
@@ -75,19 +72,12 @@ def confirm_prompt():
     data = request.get_json()
     SPEECH = data['message']
 
-    prompt = f"""{HUMAN_PROMPT} you are a cheerful and encouraging life coach. This past JSON represents your client’s goals system. 
-    <pastJSON>{temp_json}</pastJSON> Your client’s speech will indicate whether they want to confirm the changes to the JSON that were proposed in a previous prompt. 
-    As you can observe from the JSON, this JSON represents a goals system which contains long-term goals, short-term one-time milestones, and frequent habits. 
+    prompt = f"""{HUMAN_PROMPT} you are a cheerful and encouraging life coach. This master JSON represents your client’s goals system. <masterJSON>{goals_json_master}</masterJSON> This temporary JSON is a possible edited version of the masterJSON, which your client requested in a previous conversation. <tempJSON>{temp_json}</tempJSON> Your client’s speech will indicate whether they want to confirm the changes to the master JSON. As you can observe from the JSONs, these JSONs represent a goals system which contains long-term goals, short-term one-time milestones, and frequent habits. 
     First, within <thinking> tags, think about whether the user’s speech indicates a yes/no as to whether they want to confirm changes. 
-    If they talk about something else, within <response> tags, gently remind them to answer whether they wish to confirm the previously shown changes. 
-    Additionally, within <needsConfirm> tags say “True”, and within <finalizeChange> put “False”. Within <newJSON> tags say “same”.
-    If the speech indicates they wish confirm the changes: within <finalizeChange> tags, say “True”, within <needsConfirm> tags say “False”, and within <response> tags, 
-    let the client know the changes have been made. Else if the speech indicates they wish to edit the changes: within <finalizeChange> say “False”, <needsConfirm> say “True”, 
-    and edit the pastJSON to match the speech’s sentiment on how they actually wish to edit their goals system. Put the new, edited JSON in between <newJSON> tags. 
-    Within this newJSON tag do NOT use escape characters. Additionally, within the <response> tags craft a response to the human client that lists the edits in their goals system. 
-    Keep this response brief, organized, and friendly!
+    If they talk about something else, within <response> tags, gently remind them to answer whether they wish to confirm the previously shown changes. Additionally, within <needsConfirm> tags say “True”. Within <newJSON> tags say “same”.
+    If the speech indicates they wish confirm the changes: within <needsConfirm> tags say “False”, and within <response> tags, let the client know the changes have been made. Else if the speech indicates they wish to edit the changes: within <needsConfirm> tags say “True”. Additionally, edit the masterJSON based on the actual changes the client wants. Put the new, edited JSON in between <newJSON> tags. Within this newJSON tag do NOT use escape characters. Additionally, within the <response> tags craft a response to the human client that specifically lists the new edits in their new goals system compared to the masterJSON, or the current system. Also, request them specifically to confirm whether the listed changes in this response are correct and to their liking. Keep this response brief, organized, and friendly!
     Here is the client’s speech: <speech>{SPEECH}</speech>
-    {AI_PROMPT}
+    {AI_PROMPT}s
     """
     json_completion = anthropic.completions.create(
         model="claude-2",
@@ -106,8 +96,6 @@ def confirm_prompt():
 
     response = extract_response_tags(response_raw)
     return jsonify(response)
-
-
 
 
 
