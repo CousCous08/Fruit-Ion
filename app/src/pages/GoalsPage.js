@@ -38,7 +38,7 @@ const GoalsPage = () => {
 
     const handleGoalClick = (goal) => {
         // Navigate to the detailed goal page
-        navigate(`/milestones/${goal.id}`, { state: { goal } });
+        navigate(`/goals/${goal.id}`, { state: { goal } });
     };
 
     return (
