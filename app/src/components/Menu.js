@@ -4,6 +4,7 @@ import logo from "../assets/grape_icon.png"
 
 const Menu = () => {
     return (
+
         <div>
             
             <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 pr-40">
@@ -38,6 +39,7 @@ const Menu = () => {
                     </li>
                 </ul>
             </div>
+
         </div>
     );
 }

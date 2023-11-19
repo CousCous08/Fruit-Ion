@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const GoalCard = ({ name, milestones, onClick }) => {
   return (
     <div onClick={onClick} style={{ cursor: 'pointer' }}>
@@ -12,10 +11,12 @@ const GoalCard = ({ name, milestones, onClick }) => {
         </div>
 
         <div class="ml-4">
+
           <h2 class="font-semibold">{name}</h2>
           <p class="mt-2 text-sm text-gray-500">Next Milestone/Habit: {milestones[0].name}</p>
         </div>
       </div>
+
     </div>
   );
 }

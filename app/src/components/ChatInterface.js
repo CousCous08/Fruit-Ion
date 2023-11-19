@@ -23,10 +23,6 @@ const ChatInterface = () => {
         image: aiImage
     }
 
-    const simulateAIResponse = (userInput) => {
-        return "Thanks for sharing! Keep up the good work.";
-    }
-
     // simulate real-time typing effect by gradually updating currentAIMessage
     const simulateTyping = (fullMessage) => {
         let typedMessage = '';
@@ -45,29 +41,148 @@ const ChatInterface = () => {
                 setCurrentAIMessage('');
             }
 
-        }, 50); // speed of typing
+        }, 5); // speed of typing
     }
 
-    // Add more functions and JSX here
-    const handleSend = () => {
+    const generalPrompt = (userInput) => {
+        //return "Thanks for sharing! Keep up the good work.";
+
+
+        //keep this as a template for the fetch call
+        return fetch('http://localhost:5000/api/general_prompt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: userInput })
+        })
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.error('Error:', error);
+            return '';
+        });
+    }
+
+    const confirmPrompt = (userInput) => {
+        //return "Thanks for sharing! Keep up the good work.";
+        return fetch('http://localhost:5000/api/confirm_prompt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: userInput })
+        })
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.error('Error:', error);
+            return '';
+        });
+    }
+
+
+    const getGoalsTest = () => {
+        return fetch('http://localhost:5000/api/get_goals_json_test', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // If you need to send data in the POST request, include it here
+            body: JSON.stringify({}) // Sending an empty object as an example
+        })
+        .then(response => response.json())  // Parses the JSON response
+        .then(data => data)
+        .catch(error => console.error('Error:', error));
+    }
+
+    //use this as a template for getting the master list of goals
+    const getGoalsMaster = () => {
+        return fetch('http://localhost:5000/api/get_goals_master', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // If you need to send data in the POST request, include it here
+            body: JSON.stringify({}) // Sending an empty object as an example
+        })
+        .then(response => response.json())  // Parses the JSON response
+        .then(data => data)
+        .catch(error => console.error('Error:', error));
+    }
+
+
+    const getConfirm = () => {
+        return fetch('http://localhost:5000/api/get_need_confirm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // If you need to send data in the POST request, include it here
+            body: JSON.stringify({}) // Sending an empty object as an example
+        })
+        .then(response => response.json())  // Parses the JSON response
+        .then(data => data)
+        .catch(error => console.error('Error:', error));
+    }
+
+    // made it async so it always featches the new goals after it takes care of this one
+    const handleSend = async () => {
         if (inputText.trim()) {
             const newUserMessage = { text: inputText, user: currentUser, sender: 'user' };
+            //test going into backend
             setMessages([...messages, newUserMessage]);
             setInputText('');
+
+            const needsConfirm = await getConfirm()
+            console.log("if this is true, we call our confirmation prompt; else, we call general prompt " + needsConfirm)
 
             setIsAiTyping(true);
 
             // Simulate AI response after user sends a message
-            const aiResponse = simulateAIResponse(inputText);
-            simulateTyping(aiResponse); // Call simulateTyping here
+            //calling the api in this format should work
+            let aiResponsePromise = null
+
+            if (String(needsConfirm).toLowerCase() == "false") {
+                console.log('general prompt called')
+                aiResponsePromise = await generalPrompt(inputText);
+            } else {
+                console.log('confirm prompt called')
+
+                aiResponsePromise = await confirmPrompt(inputText);
+            }
+
+            console.log("response finished generating")
+            simulateTyping(String(aiResponsePromise))
             setInputText('');
+
+            const needsConfirm2 = await getConfirm()
+            console.log("do we need confirmation after the response? " + needsConfirm2)
+
+
+
+            //testing getting the goals from server -- for this we return temp_json, which will not be used like this in the final product
+            //follow this format to get the master json
+            const test_goals = getGoalsTest();
+            test_goals.then(response => {
+                console.log("the temp_response is " + JSON.stringify(response))
+            }).catch(error => {
+                console.error('Error', error)
+            });
+
+            const master_goals = getGoalsMaster();
+            master_goals.then(response => {
+                console.log("the master_response is " + JSON.stringify(response))
+            }).catch(error => {
+                console.error('Error', error)
+            });
         }
     }
 
     // use an effect to scroll to the bottom every time messages update
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
+    }, [messages]); 
 
     // Inside your ChatInterface component
     return (
