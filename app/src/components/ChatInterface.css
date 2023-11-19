@@ -22,7 +22,7 @@
 }
 
 .current-user .message-content {
-    background-color: #daf8cb; /* Different background for distinction */
+    background-color: rgb(236, 219, 248); /* Different background for distinction */
     order: -1; /* This puts the message content before the image */
 }
 
