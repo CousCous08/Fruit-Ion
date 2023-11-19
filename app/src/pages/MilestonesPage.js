@@ -1,22 +1,13 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { Component } from 'react';
 
-const MilestonesPage = () => {
-  const location = useLocation();
-  const goal = location.state.goal;
-
-  return (
-    <div>
-      <h1>{goal.name}</h1>
-      <p>Deadline: {goal.deadline}</p>
-      <h3>Milestones</h3>
-      <ul>
-        {goal.milestones.map((milestone, index) => (
-          <li key={index}>{milestone}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
+// import './about.css';
+class MilestonesPage extends Component {
+    render() {
+        return(
+            <div className="Milestones-page">
+                <h1>Milestones Page</h1>
+            </div>
+        );
+    }
+}
 export default MilestonesPage;
